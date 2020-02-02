@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cb1ce1f092c0c9478cfa6680c917282, type: 3}
+  m_Name: RoomData
+  m_EditorClassIdentifier: 
+  sizeOfRoom: {x: 2, y: 2}
+  centerRoomPos: {x: -15, y: 0, z: -35}
+  parentRotation: {x: 0, y: 0, z: 0, w: 1}
+  floorGridPrefabs:
+  - {fileID: 1830345874351117772, guid: 35234f9ac8408f84d84f2a2425cda9f3, type: 3}
+  - {fileID: 3498750374606899077, guid: 210e42a08b38d394184dd4bc9dc8384d, type: 3}
+  - {fileID: 2018964037048435059, guid: 2e4204237a98c204aa53d1d18e7e84fc, type: 3}
+  - {fileID: 2018964037048435059, guid: 2e4204237a98c204aa53d1d18e7e84fc, type: 3}
+  gridLocalPos:
+  - {x: -2, y: 0, z: -2}
+  - {x: -2, y: 0, z: 2}
+  - {x: 2, y: 0, z: -2}
+  - {x: 2, y: 0, z: 2}
+  gridLocalRotation:
+  - {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
+  - {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  - {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  - {x: -0, y: -0, z: -0, w: 1}
+  forwardDirection: 0
+  forwardCoridorPrefab: {fileID: 3498750374606899077, guid: 210e42a08b38d394184dd4bc9dc8384d,
+    type: 3}
+  forwardCoridorPos: {x: 0, y: 0, z: 6}
+  forwardCoridorRotation: {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
+  backDirection: 2
+  backCoridorPrefab: {fileID: 2018964037048435059, guid: 2e4204237a98c204aa53d1d18e7e84fc,
+    type: 3}
+  backCoridorPos: {x: 6, y: 0, z: 0}
+  backCoridorRotation: {x: 0, y: 0.7071068, z: 0, w: -0.7071068}
