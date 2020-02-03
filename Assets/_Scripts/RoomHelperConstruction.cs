@@ -30,11 +30,6 @@ public class RoomHelperConstruction : MonoBehaviour
         DestroyImmediate(gameObject);
     }
 
-    private void OnDestroy()
-    {
-        _map.RemoveParticularRoom(gameObject);
-    }
-
     public void SaveThisAssetOnProjectPanel()
     {
         _roomAsset.centerRoomPos = transform.position;

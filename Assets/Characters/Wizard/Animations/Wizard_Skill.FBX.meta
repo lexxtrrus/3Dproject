@@ -323,7 +323,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.6896611
+      - time: 0.658824
         functionName: SkillEvent
         data: 
         objectReferenceParameter: {instanceID: 0}

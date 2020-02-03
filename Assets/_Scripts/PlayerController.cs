@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum CharactersState
 {
@@ -23,15 +24,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private Transform firePoint;
     //private static int AttackTrigger;
-    
 
+    [SerializeField] private Image coldownEffect;
+    [SerializeField] private bool isSkillColdown = false;
+
+    float rot = 0;
 
     private void Start()
     {
         charactersState = CharactersState.Idle;
         InputController.OnInputAction += OnInputCommand;
-        animator.SetFloat("Speed", 1f);
-        StartCoroutine(WaitForRun(3f));
+        //animator.SetFloat("Speed", 1f);
+        //StartCoroutine(WaitForRun(3f));
     }
 
     private IEnumerator WaitForRun(float time)
@@ -65,9 +69,34 @@ public class PlayerController : MonoBehaviour
                 Attack();
                 break;
             case InputCommand.Skill:
+                if (isSkillColdown || charactersState == CharactersState.Attack) return;
+                isSkillColdown = true;
+                coldownEffect.enabled = true;
+                StartCoroutine(ColdownCounter());
                 Skill();
                 break;
         }
+    }
+
+    private IEnumerator ColdownCounter()
+    {
+        float timer = Time.time + 4f;
+        coldownEffect.fillAmount = 1f;
+        while (Time.time < timer)
+        {
+            coldownEffect.fillAmount -= 1f / 4f * Time.deltaTime;
+
+            if(coldownEffect.fillAmount <= 0f)
+            {
+                coldownEffect.fillAmount = 0f;
+                break;
+            }
+
+            yield return null;
+        }
+
+        isSkillColdown = false;
+        coldownEffect.enabled = false;
     }
 
     public void AttackEvent()
@@ -76,8 +105,10 @@ public class PlayerController : MonoBehaviour
         var rig = obj.GetComponent<Rigidbody>();
         if (rig)
         {
-            rig.AddForce(Vector3.forward * 5f, ForceMode.Impulse);
+            rig.AddForce(transform.forward * 15f, ForceMode.Impulse);
         }
+
+        DelayRun.Execute(delegate { Destroy(obj); }, 1f, obj);
     }
 
     public void SkillEvent()
@@ -87,11 +118,12 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < skillBountes; i++)
         {
             var y = skillAngleBount - i * step;
-            var rotation = Quaternion.Euler(15f, y, 0f);
+            var rotation = Quaternion.Euler(10f, y, 0f);
             var obj = Instantiate(ballPrefab, firePoint.transform.position, rotation);
-            obj.transform.Translate(obj.transform.forward * 0.3f);
+            obj.transform.Translate(obj.transform.forward * 0.7f);
             Rigidbody rig = obj.GetComponent<Rigidbody>();
             if (rig) rig.AddForce(transform.forward * 15f, ForceMode.Impulse);
+            DelayRun.Execute(delegate { Destroy(obj); }, 1f, obj);
         }
     }
 
@@ -108,6 +140,16 @@ public class PlayerController : MonoBehaviour
         if (charactersState == CharactersState.Attack || charactersState == CharactersState.Skill) return;
         charactersState = CharactersState.Skill;
         animator.SetTrigger("Skill");
-        DelayRun.Execute(delegate { charactersState = CharactersState.Idle; }, 1f, gameObject);
+        DelayRun.Execute(delegate { charactersState = CharactersState.Idle; Camera.main.GetComponent<Animator>().SetTrigger("Shake"); }, 1f, gameObject);
+    }
+
+    private void Update()
+    {
+        Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        //transform.Translate(transform.forward * Time.deltaTime);
+
+        rot += movement.x * 180f * Time.deltaTime;
+        transform.localEulerAngles = new Vector3(0f, rot, 0f);
     }
 }
