@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image coldownEffect;
     [SerializeField] private bool isSkillColdown = false;
 
+    [SerializeField] private GameObject hat;
+
     float rot = 0;
 
     private void Start()
@@ -54,6 +56,11 @@ public class PlayerController : MonoBehaviour
     private void Reset()
     {
         animator = GetComponent<Animator>();        
+    }
+
+    public void WearHat()
+    {
+        hat.SetActive(true);
     }
 
     private void OnDestroy()
